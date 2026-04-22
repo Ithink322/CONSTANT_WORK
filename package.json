@@ -1,0 +1,20 @@
+{
+  "name": "intelligent-task-manager",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "dev": "node scripts/dev.mjs",
+    "build": "npm run build --workspace @intelligent-tasks/shared && npm run build --workspace @intelligent-tasks/api && npm run build --workspace @intelligent-tasks/web",
+    "dev:shared": "npm run dev --workspace @intelligent-tasks/shared",
+    "dev:api": "npm run dev --workspace @intelligent-tasks/api",
+    "dev:web": "npm run dev --workspace @intelligent-tasks/web",
+    "build:shared": "npm run build --workspace @intelligent-tasks/shared",
+    "db:generate": "npm run prisma:generate --workspace @intelligent-tasks/api",
+    "db:migrate": "npm run prisma:migrate --workspace @intelligent-tasks/api"
+  }
+}

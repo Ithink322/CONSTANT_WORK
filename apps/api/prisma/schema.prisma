@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum TaskPriority {
+  low
+  medium
+  high
+}
+
+enum TaskStatus {
+  pending
+  in_progress
+  done
+}
+
+model Task {
+  id           String       @id @default(cuid())
+  title        String
+  description  String?
+  priority     TaskPriority @default(medium)
+  status       TaskStatus   @default(pending)
+  dueDate      DateTime?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  category     String?
+  parentTaskId String?
+
+  parentTask Task?  @relation("TaskSubtasks", fields: [parentTaskId], references: [id], onDelete: Cascade)
+  subTasks   Task[] @relation("TaskSubtasks")
+
+  @@index([status, priority, dueDate])
+  @@index([parentTaskId])
+}
+
