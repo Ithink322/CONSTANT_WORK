@@ -1,71 +1,71 @@
 # Intelligent Task Manager
 
-Task manager built with `React + TypeScript + Vite` on the frontend and `NestJS + Prisma + SQLite` on the backend.  
-The app supports task CRUD, server-side filtering and search, plus AI-powered category suggestions, priority suggestions, task decomposition, and workload summaries.
+Менеджер задач на `React + TypeScript + Vite` для frontend и `NestJS + Prisma + SQLite` для backend.  
+Приложение поддерживает CRUD для задач, серверную фильтрацию и поиск, а также AI-функции: предложение категории, приоритета, декомпозицию задачи и сводку нагрузки.
 
-## Tech Stack
+## Технологии
 
 - Frontend: React, TypeScript, Vite, TanStack Query, React Hook Form, Zod
 - Backend: NestJS, Prisma, SQLite, OpenAI SDK
-- Shared contracts: workspace package with DTOs and Zod schemas
+- Общие контракты: workspace-пакет с DTO и Zod-схемами
 
-## Project Structure
+## Структура проекта
 
 ```text
 apps/
   api/      NestJS API
   web/      React frontend
 packages/
-  shared/   Shared schemas, DTOs, enums
+  shared/   Общие схемы, DTO и enum'ы
 scripts/
-  setup.mjs Project setup helper
-  dev.mjs   Runs frontend and backend together
+  setup.mjs Подготовка проекта
+  dev.mjs   Одновременный запуск frontend и backend
 ```
 
-## Requirements
+## Требования
 
 - Node.js 20+
 - npm 10+
 
-## Quick Start
+## Быстрый старт
 
-### 1. Install dependencies
+### 1. Установить зависимости
 
 ```bash
 npm install
 ```
 
-### 2. Run one-time project setup
+### 2. Выполнить первичную настройку проекта
 
 ```bash
 npm run setup
 ```
 
-What `npm run setup` does:
+Что делает `npm run setup`:
 
-- creates `apps/api/.env` from `apps/api/.env.example` if it does not exist
-- creates `apps/web/.env` from `apps/web/.env.example` if it does not exist
-- builds the shared workspace package
-- generates the Prisma client
+- создает `apps/api/.env` из `apps/api/.env.example`, если файла еще нет
+- создает `apps/web/.env` из `apps/web/.env.example`, если файла еще нет
+- собирает shared-пакет
+- генерирует Prisma Client
 
-### 3. Start the app
+### 3. Запустить приложение
 
 ```bash
 npm run dev
 ```
 
-This starts:
+После запуска будут доступны:
 
 - frontend: [http://localhost:5173](http://localhost:5173)
 - backend API: [http://localhost:3001/api/v1](http://localhost:3001/api/v1)
 
-## Environment Variables
+## Переменные окружения
 
-Default local configuration is created automatically by `npm run setup`.
+Локальная конфигурация по умолчанию создается автоматически командой `npm run setup`.
 
 ### Backend
 
-File: `apps/api/.env`
+Файл: `apps/api/.env`
 
 ```env
 DATABASE_URL="file:./prisma/dev.db"
@@ -77,23 +77,23 @@ OPENAI_MODEL=gpt-4.1-mini
 
 ### Frontend
 
-File: `apps/web/.env`
+Файл: `apps/web/.env`
 
 ```env
 VITE_API_URL=http://localhost:3001/api/v1
 ```
 
-## AI Modes
+## Режимы AI
 
-The project supports two AI modes:
+Проект поддерживает два режима работы AI:
 
 - `LLM_PROVIDER=heuristic`  
-  Local fallback mode. Works without any API key.
+  Локальный fallback-режим. Работает без внешнего API-ключа.
 
 - `LLM_PROVIDER=openai`  
-  Uses OpenAI Responses API with structured outputs.
+  Использует OpenAI Responses API и structured outputs.
 
-To enable OpenAI, update `apps/api/.env`:
+Чтобы включить OpenAI, обновите `apps/api/.env`:
 
 ```env
 LLM_PROVIDER=openai
@@ -101,45 +101,45 @@ OPENAI_API_KEY=your_key_here
 OPENAI_MODEL=gpt-4.1-mini
 ```
 
-If OpenAI is unavailable, the backend falls back to heuristic behavior so the app remains usable.
+Если OpenAI недоступен, backend автоматически переключается на heuristic-режим, чтобы приложение продолжало работать.
 
-## Available Scripts
+## Доступные команды
 
 ```bash
-npm run setup        # prepare env files, build shared package, generate Prisma client
-npm run dev          # run frontend and backend together
-npm run dev:api      # run only backend
-npm run dev:web      # run only frontend
-npm run build        # production build for all workspaces
-npm run db:generate  # generate Prisma client
+npm run setup        # подготовить env-файлы, собрать shared-пакет, сгенерировать Prisma Client
+npm run dev          # запустить frontend и backend вместе
+npm run dev:api      # запустить только backend
+npm run dev:web      # запустить только frontend
+npm run build        # production build для всех workspace-пакетов
+npm run db:generate  # сгенерировать Prisma Client
 ```
 
-## Notes
+## Особенности реализации
 
-- SQLite is used for local development.
-- The backend ensures the local database schema exists on startup.
-- Shared Zod schemas are reused between frontend and backend to keep request and response contracts consistent.
+- Для локальной разработки используется SQLite.
+- Backend сам проверяет наличие схемы базы данных при запуске.
+- Общие Zod-схемы переиспользуются между frontend и backend для единых контрактов запросов и ответов.
 
-## Implemented Features
+## Что реализовано
 
-- Task CRUD
-- Server-side filters by status, priority, and due date
-- Full-text search by title and description
-- AI category suggestion
-- AI priority suggestion
-- AI task decomposition into subtasks
-- AI workload summary
-- Structured API error responses
+- CRUD задач
+- Серверная фильтрация по статусу, приоритету и сроку
+- Полнотекстовый поиск по названию и описанию
+- AI-предложение категории
+- AI-предложение приоритета
+- AI-декомпозиция задачи на подзадачи
+- AI-сводка нагрузки
+- Структурированные ошибки API
 
-## Known Limitations
+## Известные ограничения
 
-- No authentication or multi-user mode
-- Delete confirmation uses the browser confirm dialog
-- AI features are request/response based, without streaming
+- Нет авторизации и многопользовательского режима
+- Для подтверждения удаления используется стандартный `window.confirm`
+- AI-функции работают в request/response-режиме, без streaming
 
-## What I Would Add Next
+## Что можно добавить дальше
 
-- End-to-end tests for CRUD and AI flows
-- Swagger / OpenAPI documentation
-- Docker Compose for one-command containerized startup
-- Richer subtask workflows
+- E2E-тесты для CRUD и AI-сценариев
+- Swagger / OpenAPI документацию
+- Docker Compose для запуска одной командой
+- Более развитую работу с подзадачами
